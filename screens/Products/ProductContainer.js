@@ -10,7 +10,7 @@ const CATEGORIES = require('../../data/categories.json');
 
 var { height } = Dimensions.get('window')
 
-function ProductContainer() {
+function ProductContainer(props) {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [productsCtg, setProductsCtg] = useState([]);
@@ -61,7 +61,11 @@ function ProductContainer() {
                     <View style={styles.listContainer}>
                         {productsCtg.map((item) => {
                             return (
-                                <ProductList key={item._id.$oid} item={item} />
+                                <ProductList 
+                                    navigation={props.navigation} 
+                                    key={item._id.$oid} 
+                                    item={item} 
+                                />
                             )
                         })}
                     </View>

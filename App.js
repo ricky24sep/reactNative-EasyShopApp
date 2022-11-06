@@ -1,14 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 
+import Main from './Navigators/Main';
 import Header from './components/Header';
-import ProductContainer from './screens/Products/ProductContainer';
 
 export default function App() {
   return (
-    <>
-      <StatusBar style='auto' />
-      <Header />
-      <ProductContainer />
-    </>
+    <NavigationContainer>
+        <StatusBar style='auto' />
+        <Header />
+        <Main />
+    </NavigationContainer>
   );
 }
+

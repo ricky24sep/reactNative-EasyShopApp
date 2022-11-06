@@ -7,7 +7,12 @@ const { width } = Dimensions.get('window');
 function ProductList(props) {
     const { item } = props;
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity 
+            style={styles.container} 
+            onPress={() =>
+                props.navigation.navigate('Product Detail', {item: item})
+            }
+        >
             <View style={styles.subContainer}>
                 <ProductCard {...item} />
             </View>
@@ -17,10 +22,10 @@ function ProductList(props) {
 
 const styles = StyleSheet.create({
     container: {
-        width: width / 2,
+        width: '50%',
     },
     subContainer: {
-        //width: width / 2,
+        width: width / 2,
         backgroundColor: 'gainsboro'
     },
 });

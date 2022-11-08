@@ -2,26 +2,39 @@ import { View, Image, Text, StyleSheet, Dimensions, Button } from "react-native"
 
 var { width } = Dimensions.get('window');
 
-function ProductCard(props) {
-    const { name, price, image, countInStock } = props;
+function ProductCard({item, addToCart}) {
+
+    console.log ('ProductCard --> item:', item );
+    console.log ('ProductCard --> addToCart:', addToCart );
+
     return (
         <View style={styles.container}>
             <Image 
-            style={styles.image} 
-            resizeMode='contain'
-            source={ image ? { uri: image } : require('../../assets/products/no-preview.png')}
+                style={styles.image} 
+                resizeMode='contain'
+                source={ 
+                    item.image ? 
+                    { uri: item.image } : 
+                    require('../../assets/products/no-preview.png')
+                }
             />
             <View style={styles.card} />
             <Text style={styles.title}>
                 {
-                    name.length > 15 ? name.substring(0, 15 - 3) + '...' : name
+                    item.name.length > 15 ? 
+                    item.name.substring(0, 15 - 3) + '...' : 
+                    item.name
                 }
             </Text>
-            <Text style={styles.price}>${price}</Text>
+            <Text style={styles.price}>${item.price}</Text>
             {
-                countInStock > 0 ? (
+                item.countInStock > 0 ? (
                     <View style={{ marginBottom: 60 }}>
-                        <Button title='Add' color='green' />
+                        <Button 
+                            title='Add' 
+                            color='green' 
+                            onPress={addToCart} 
+                        />
                     </View>
                 ) :
                 <Text style={{ marginTop: 20 }}>Currently Unavailable</Text>

@@ -11,6 +11,9 @@ const CATEGORIES = require('../../data/categories.json');
 var { height } = Dimensions.get('window')
 
 function ProductContainer(props) {
+
+    console.log ('ProductContainer --> props:', props);
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [productsCtg, setProductsCtg] = useState([]);
@@ -27,9 +30,9 @@ function ProductContainer(props) {
 
     const changeCtg = (ctg) => {{
 
-        console.log('selected category id:', ctg);
-        console.log('All Products:', products);
-        console.log('Filtered products:', 
+        console.log('ProductContainer --> Selected category id:', ctg);
+        console.log('ProductContainer --> All products:', products);
+        console.log('ProductContainer --> Filtered products:', 
             products.filter((item) => item.category.$oid === ctg
         ));
         

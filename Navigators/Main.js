@@ -1,21 +1,25 @@
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeNavigator from './HomeNavigator';
+import CartNavigator from './CartNavigator';
 
 const Tab = createBottomTabNavigator();
 
 function Main() {
     return (
-        <Tab.Navigator initialRouteName='Home' screenOptions={{
-            tabBarActiveTintColor: 'red',
-        }}>
+        <Tab.Navigator 
+            initialRouteName='HomeTab' 
+            screenOptions={{
+                tabBarActiveTintColor: 'red',
+            }}
+        >
             <Tab.Screen 
-                name='Home' 
+                name='HomeTab' 
                 component={HomeNavigator}
                 options={{
                     headerShown: false,
+                    tabBarLabel: 'Home',
                     tabBarIcon: ({ color }) => (
                         <Ionicons 
                             name='home' 
@@ -26,10 +30,11 @@ function Main() {
                 }}
             />
             <Tab.Screen 
-                name='Cart' 
-                component={HomeNavigator}
+                name='CartTab' 
+                component={CartNavigator}
                 options={{
                     headerShown: false,
+                    tabBarLabel: 'Cart',
                     tabBarIcon: ({ color }) => (
                         <Ionicons 
                             name='cart' 

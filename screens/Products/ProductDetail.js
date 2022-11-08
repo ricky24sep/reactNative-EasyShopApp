@@ -1,10 +1,21 @@
 import { useState } from 'react';
-import { Image, View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import { useDispatch } from 'react-redux';
+import { Image, View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+
+import { addToCart } from '../../redux/reducers/cartReducer';
 
 function ProductDetail(props) {
 
+    console.log ('ProductDetail --> props:', props);
+    console.log ('ProductDetail --> props.route.params.item:', props.route.params.item);
+
     const [item, setItem] = useState(props.route.params.item);
     const [availability, setAvailability] = useState('');
+
+    const dispatch = useDispatch();
+    function addToCartHandler() {
+        dispatch(addToCart({ quantity: 1, cartItem: item}));
+    }
 
     return (
         <View style={styles.container}>
@@ -29,11 +40,13 @@ function ProductDetail(props) {
                 <View style={styles.bottonContainer}>
                     <Text style={styles.button}>${item.price}</Text>
                 </View>
-                <TouchableOpacity style={styles.bottonContainer}>
-                    <Text style={[styles.button, { textAlign: 'right', fontSize: 18 }]}>
-                        Add
-                    </Text>
-                </TouchableOpacity>
+                <View style={styles.bottonContainer}>
+                <Button 
+                    title='Add' 
+                    color='green' 
+                    onPress={addToCartHandler} 
+                />
+                </View>
             </View>
         </View>
     );
@@ -76,12 +89,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     bottonContainer: {
+        margin: 18,
         width: '50%',
     },
     button: {
         fontSize: 24,
         fontWeight: 'bold',
-        margin: 18,
         color: 'red',
     },
 });

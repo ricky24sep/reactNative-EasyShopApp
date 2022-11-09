@@ -11,15 +11,18 @@ const cartSlice = createSlice({
             console.log('cart items:', state.items);
         },
         removeFromCart: (state, action) => {
-            state.items.splice(state.items.indexOf(action.payload), 1);
+            let indexOfItem = state.items.indexOf(action.payload)
+            state.items.splice(indexOfItem, 1);
             console.log('cart items:', state.items);
         },
-        // clearCart: (state, action) => {
-        //     state.items.
-        // },
+        clearCart: (state, action) => {
+            state.items.splice(0, action.payload.length);
+            console.log('cart items:', state.items);
+        },
     }
 });
 
 export const addToCart= cartSlice.actions.addToCart;
 export const removeFromCart = cartSlice.actions.removeFromCart;
+export const clearCart = cartSlice.actions.clearCart;
 export default cartSlice.reducer;

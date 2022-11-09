@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Image, View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 
 import { addToCart } from '../../redux/reducers/cartReducer';
+import BottomContainerView from '../../components/UI/BottomContainerView';
 
 function ProductDetail(props) {
 
@@ -14,7 +15,7 @@ function ProductDetail(props) {
 
     const dispatch = useDispatch();
     function addToCartHandler() {
-        dispatch(addToCart({ quantity: 1, cartItem: item}));
+        dispatch(addToCart({ quantity: 1, product: item}));
     }
 
     return (
@@ -23,10 +24,11 @@ function ProductDetail(props) {
                 <View style={styles.imageContainer}>
                     <Image 
                         style={styles.image}
-                        source={{
-                            uri: item.image ? item.image 
-                            : 'https://www.freepngimg.com/thumb/fifa/11-2-fifa-png-images.png'
-                        }}
+                        source={ 
+                            item.image ? 
+                            { uri: item.image } : 
+                            require('../../assets/products/no-preview.png')
+                        }
                         resizeMode='contain'
                     />
                 </View>
@@ -36,18 +38,11 @@ function ProductDetail(props) {
 
                 </View>
             </ScrollView>
-            <View style={styles.bottomContainer}>
-                <View style={styles.bottonContainer}>
-                    <Text style={styles.button}>${item.price}</Text>
-                </View>
-                <View style={styles.bottonContainer}>
-                <Button 
-                    title='Add' 
-                    color='green' 
-                    onPress={addToCartHandler} 
-                />
-                </View>
-            </View>
+            <BottomContainerView 
+                price={item.price} 
+                title='Add' 
+                onPress={addToCartHandler} 
+            />
         </View>
     );
 }
@@ -80,22 +75,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 20,
-    },
-    bottomContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        position: 'relative',
-        bottom: 0,
-        backgroundColor: 'white',
-    },
-    bottonContainer: {
-        margin: 18,
-        width: '50%',
-    },
-    button: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'red',
     },
 });
 

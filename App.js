@@ -13,7 +13,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <StatusBar style='auto' />
-        <Header />
+        {/* <Header /> */}
         <Main />
       </NavigationContainer>
     </Provider>

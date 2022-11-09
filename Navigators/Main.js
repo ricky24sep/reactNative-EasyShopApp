@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import HomeNavigator from './HomeNavigator';
 import CartNavigator from './CartNavigator';
+import Header from '../components/Header';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,7 @@ function Main() {
                 component={CartNavigator}
                 options={{
                     headerShown: false,
+                    headerTitle: (props) => <Header />,
                     tabBarLabel: 'Cart',
                     tabBarIcon: ({ color }) => (
                         <Ionicons 

@@ -15,7 +15,7 @@ function ProductList(props) {
     console.log ('ProductList --> item:', item );
 
     function addToCartHandler() {
-        dispatch(addToCart({ quantity: 1, cartItem: item}));
+        dispatch(addToCart({ quantity: 1, product: item}));
     }
 
     return (

@@ -12,14 +12,14 @@ function CartNavigator() {
                 name='Cart' 
                 component={CartScreen} 
                 options={{
-                    headerShown: false
+                    //headerShown: false
                 }} 
             />
             <Stack.Screen 
                 name='Checkout' 
                 component={CheckoutScreen} 
                 options={{
-                    headerShown: false
+                    //headerShown: false
                 }} 
             />
         </Stack.Navigator>

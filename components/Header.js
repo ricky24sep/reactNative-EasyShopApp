@@ -13,7 +13,7 @@ function Header() {
 
 const styles = StyleSheet.create({
     header: {
-        width: '100%',
+        //width: '100%',
         flexDirection: 'row',
         //alignContent: 'center',
         justifyContent: 'center',

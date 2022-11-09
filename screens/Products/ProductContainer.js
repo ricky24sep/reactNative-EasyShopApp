@@ -29,13 +29,6 @@ function ProductContainer(props) {
     }, []);
 
     const changeCtg = (ctg) => {{
-
-        console.log('ProductContainer --> Selected category id:', ctg);
-        console.log('ProductContainer --> All products:', products);
-        console.log('ProductContainer --> Filtered products:', 
-            products.filter((item) => item.category.$oid === ctg
-        ));
-        
         ctg === 'all'
             ? [setProductsCtg(initialState), setActive(true)]
             : [

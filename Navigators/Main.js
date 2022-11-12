@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import HomeNavigator from './HomeNavigator';
 import CartNavigator from './CartNavigator';
-import Header from '../components/Header';
+import Header from '../components/UI/Header';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,10 +47,11 @@ function Main() {
                 }} 
             />
             <Tab.Screen 
-                name='Admin' 
+                name='AdminTab' 
                 component={HomeNavigator}
                 options={{
                     headerShown: false,
+                    tabBarLabel: 'Admin',
                     tabBarIcon: ({ color }) => (
                         <Ionicons 
                             name='cog' 
@@ -61,10 +62,11 @@ function Main() {
                 }} 
             />
             <Tab.Screen 
-                name='User' 
+                name='UserTab' 
                 component={HomeNavigator}
                 options={{
                     headerShown: false,
+                    tabBarLabel: 'User',
                     tabBarIcon: ({ color }) => (
                         <Ionicons 
                             name='person' 

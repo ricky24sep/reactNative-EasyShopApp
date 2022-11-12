@@ -5,10 +5,10 @@ import { Image, View, Text, StyleSheet, ScrollView, Button } from 'react-native'
 import { addToCart } from '../../redux/reducers/cartReducer';
 import BottomContainerView from '../../components/UI/BottomContainerView';
 
-function ProductDetail(props) {
+function ProductDetailScreen(props) {
 
-    console.log ('ProductDetail --> props:', props);
-    console.log ('ProductDetail --> props.route.params.item:', props.route.params.item);
+    console.log ('ProductDetailScreen --> props:', props);
+    console.log ('ProductDetailScreen --> props.route.params.item:', props.route.params.item);
 
     const [item, setItem] = useState(props.route.params.item);
     const [availability, setAvailability] = useState('');
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ProductDetail;
+export default ProductDetailScreen;

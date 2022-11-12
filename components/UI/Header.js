@@ -4,7 +4,7 @@ function Header() {
     return (
         <SafeAreaView style={styles.header}>
             <Image style={{ height: 50 }} 
-                source={require('../assets/logo.png')} 
+                source={require('../../assets/logo.png')} 
                 resizeMode='contain'
             />
         </SafeAreaView>

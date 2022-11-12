@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from "react-native";
 
-function CheckoutScreen(props) {
+function ConfirmationScreen(props) {
     return (
         <View>
-            <Text>CART WORKS</Text>
+            <Text>Confirmation Screen</Text>
         </View>
     );
 }
@@ -11,4 +11,4 @@ function CheckoutScreen(props) {
 const styles = StyleSheet.create({
 });
 
-export default CheckoutScreen;
+export default ConfirmationScreen;

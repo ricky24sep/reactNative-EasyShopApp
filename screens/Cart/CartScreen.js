@@ -27,7 +27,6 @@ function CartScreen(props) {
     props.navigation.setOptions({
         headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={() => {
-                console.log('cartItems', cartItems);
                 dispatch(clearCart(cartItems));
             }} >
                 <Ionicons name='trash' color='red' size={24} />

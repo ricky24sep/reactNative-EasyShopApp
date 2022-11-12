@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { Provider } from 'react-redux';
 
-import store from './redux/store';
+import store from './redux/store/store';
 import Main from './Navigators/Main';
-import Header from './components/Header';
+import Header from './components/UI/Header';
 
 export default function App() {
   return (

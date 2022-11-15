@@ -6,6 +6,7 @@ import CartNavigator from './CartNavigator';
 import UserNavigator from './UserNavigator';
 
 import Header from '../components/UI/Header';
+import { GlobalStyles } from '../constants/Styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,11 +15,9 @@ function Main() {
         <Tab.Navigator 
             initialRouteName='HomeTab' 
             screenOptions={{
-                //headerStyle: { backgroundColor: '#351401' },
-                //headerTintColor: 'white',
-                tabBarStyle: { backgroundColor: '#0282b0' },
-                tabBarInactiveTintColor: '#9ee4fe',
-                tabBarActiveTintColor: 'white',
+                tabBarStyle: { backgroundColor: GlobalStyles.colors.darkBlue },
+                tabBarInactiveTintColor: GlobalStyles.colors.lightBlue,
+                tabBarActiveTintColor: GlobalStyles.colors.white,
             }}
         >
             <Tab.Screen 
@@ -41,7 +40,6 @@ function Main() {
                 component={CartNavigator}
                 options={{
                     headerShown: false,
-                    headerTitle: (props) => <Header />,
                     tabBarLabel: 'Cart',
                     tabBarIcon: ({ color }) => (
                         <Ionicons 

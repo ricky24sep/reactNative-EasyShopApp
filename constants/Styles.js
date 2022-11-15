@@ -1,9 +1,13 @@
 export const GlobalStyles = {
     colors: {
-      primary50: '#e4d9fd',
-      primary100: '#c6affc',
-      primary200: '#a281f0',
-      primary400: '#5721d4',
+      darkBlue: '#0282b0',
+      lightBlue: '#9ee4fe',
+      white: '#ffffff',
+      clear: 'transparent',
+      black: 'black',
+      gainsboro: 'gainsboro',
+      red: 'red',
+      
       primary500: '#3e04c3',
       primary700: '#2d0689',
       primary800: '#200364',

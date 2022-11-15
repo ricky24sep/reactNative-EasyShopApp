@@ -4,8 +4,9 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
 
 import CartItem from "../../components/Cart/CartItem";
-import SwipeListItem from "../../components/UI/SwipeListItem";
+import SwipeListItem from "../../components/Cart/SwipeListItem";
 import BottomView from '../../components/UI/BottomView';
+import { GlobalStyles } from '../../constants/Styles';
 
 import { removeFromCart, clearCart } from '../../redux/reducers/cartReducer';
 
@@ -25,11 +26,11 @@ function CartScreen(props) {
     });
 
     props.navigation.setOptions({
-        headerRight: (headerTintColor) => (
+        headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={() => {
                 dispatch(clearCart(cartItems));
             }} >
-                <Ionicons name='trash' color={headerTintColor} size={24} />
+                <Ionicons name='trash' color={GlobalStyles.colors.white} size={24} />
             </TouchableOpacity>    
         ),
     });
@@ -47,7 +48,7 @@ function CartScreen(props) {
 
     function renderHiddenItem({ item }) {
         return (
-            <SwipeListViewItem 
+            <SwipeListItem 
                 name='trash' 
                 color='white' 
                 size={30} 

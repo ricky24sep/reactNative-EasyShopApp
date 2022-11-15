@@ -1,5 +1,4 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-
 import { GlobalStyles } from '../../constants/Styles';
 
 function Input({
@@ -12,11 +11,11 @@ function Input({
 }) {
   return (
     <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
+      <Text style={styles.label}>
         {label}
       </Text>
       <TextInput
-        style={[styles.input, isInvalid && styles.inputInvalid]}
+        style={styles.input}
         autoCapitalize={false}
         //autoCapitalize="none"
         keyboardType={keyboardType}
@@ -32,23 +31,20 @@ export default Input;
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginVertical: 8,
+    marginVertical: 10,
   },
   label: {
-    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: GlobalStyles.colors.black,
     marginBottom: 4,
   },
-  labelInvalid: {
-    color: GlobalStyles.colors.error500,
-  },
   input: {
-    paddingVertical: 8,
-    paddingHorizontal: 6,
-    backgroundColor: GlobalStyles.colors.primary100,
+    height: 44,
+    borderColor: GlobalStyles.colors.darkBlue,
+    borderWidth: 0.5,
+    backgroundColor: GlobalStyles.colors.gainsboro,
     borderRadius: 4,
     fontSize: 16,
-  },
-  inputInvalid: {
-    backgroundColor: GlobalStyles.colors.error100,
   },
 });

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Image, View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 
 import { addToCart } from '../../redux/reducers/cartReducer';
-import BottomContainerView from '../../components/UI/BottomContainerView';
+import BottomView from '../../components/UI/BottomView';
 
 function ProductDetailScreen(props) {
 
@@ -38,7 +38,7 @@ function ProductDetailScreen(props) {
 
                 </View>
             </ScrollView>
-            <BottomContainerView 
+            <BottomView 
                 price={item.price} 
                 title='Add' 
                 onPress={addToCartHandler} 

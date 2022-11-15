@@ -3,6 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 import HomeNavigator from './HomeNavigator';
 import CartNavigator from './CartNavigator';
+import UserNavigator from './UserNavigator';
+
 import Header from '../components/UI/Header';
 
 const Tab = createBottomTabNavigator();
@@ -12,7 +14,11 @@ function Main() {
         <Tab.Navigator 
             initialRouteName='HomeTab' 
             screenOptions={{
-                tabBarActiveTintColor: 'red',
+                //headerStyle: { backgroundColor: '#351401' },
+                //headerTintColor: 'white',
+                tabBarStyle: { backgroundColor: '#0282b0' },
+                tabBarInactiveTintColor: '#9ee4fe',
+                tabBarActiveTintColor: 'white',
             }}
         >
             <Tab.Screen 
@@ -63,7 +69,7 @@ function Main() {
             />
             <Tab.Screen 
                 name='UserTab' 
-                component={HomeNavigator}
+                component={UserNavigator}
                 options={{
                     headerShown: false,
                     tabBarLabel: 'User',

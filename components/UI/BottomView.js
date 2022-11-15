@@ -1,6 +1,6 @@
 import { View, Button, Text, StyleSheet } from "react-native";
 
-function BottomContainerView({ price, title, onPress }) {
+function BottomView({ price, title, onPress }) {
 
     return (
         <View style={styles.container}>
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BottomContainerView;
+export default BottomView;

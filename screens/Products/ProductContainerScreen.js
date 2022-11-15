@@ -34,15 +34,16 @@ function ProductContainerScreen(props) {
                 async function getCategories() {
                     const data = await fetchCategories();
                     setCategories(data);
-
-                    async function getOffers() {
-                        const data = await fetchOffers();
-                        setOffers(data);
-                        setLoading(false);
-                    }
-                    getOffers();
+                    setLoading(false);
                 }
                 getCategories();
+
+                async function getOffers() {
+                    const data = await fetchOffers();
+                    setOffers(data);
+                }
+                getOffers();
+                
             }
             getProducts(); 
             
@@ -63,46 +64,41 @@ function ProductContainerScreen(props) {
             ]
     }}
 
+    if (loading) {
+        return <LoadingOverlay />
+    }
+
     return (
-        <>
-        {   
-            loading == false 
-            ? ( 
-                <ScrollView style={styles.container}>
-                    <View>
-                        <Banner offers={offers} />
-                        <View style={styles.categoriesContainer}>
-                            <CategoriesSlider
-                                categories={categories}
-                                categoryFilter={changeCtg}
-                                active={active}
-                                setActive={setActive}
-                            />
-                        </View> 
-                        {productsCtg.length > 0 ? (
-                            <View style={styles.listContainer}>
-                                {productsCtg.map((item) => {
-                                    return (
-                                        <ProductList 
-                                            navigation={props.navigation} 
-                                            key={item._id.oid} 
-                                            item={item} 
-                                        />
-                                    )
-                                })}
-                            </View>
-                        ) : (
-                            <View style={styles.center}>
-                                <Text style={styles.title}>No Products Found</Text>
-                            </View>
-                        )}
+        <ScrollView style={styles.container}>
+            <View>
+                <Banner offers={offers} />
+                <View style={styles.categoriesContainer}>
+                    <CategoriesSlider
+                        categories={categories}
+                        categoryFilter={changeCtg}
+                        active={active}
+                        setActive={setActive}
+                    />
+                </View> 
+                {productsCtg.length > 0 ? (
+                    <View style={styles.listContainer}>
+                        {productsCtg.map((item) => {
+                            return (
+                                <ProductList 
+                                    navigation={props.navigation} 
+                                    key={item._id.oid} 
+                                    item={item} 
+                                />
+                            )
+                        })}
                     </View>
-                </ScrollView>
-            ) : (
-                <LoadingOverlay />
-            )
-        }
-        </>
+                ) : (
+                    <View style={styles.center}>
+                        <Text style={styles.title}>No Products Found</Text>
+                    </View>
+                )}
+            </View>
+        </ScrollView>
     );
 }
 

@@ -4,8 +4,8 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
 
 import CartItem from "../../components/Cart/CartItem";
-import SwipeListViewItem from "../../components/UI/SwipeListViewItem";
-import BottomContainerView from '../../components/UI/BottomContainerView';
+import SwipeListItem from "../../components/UI/SwipeListItem";
+import BottomView from '../../components/UI/BottomView';
 
 import { removeFromCart, clearCart } from '../../redux/reducers/cartReducer';
 
@@ -25,11 +25,11 @@ function CartScreen(props) {
     });
 
     props.navigation.setOptions({
-        headerRight: () => (
+        headerRight: (headerTintColor) => (
             <TouchableOpacity style={styles.iconButton} onPress={() => {
                 dispatch(clearCart(cartItems));
             }} >
-                <Ionicons name='trash' color='red' size={24} />
+                <Ionicons name='trash' color={headerTintColor} size={24} />
             </TouchableOpacity>    
         ),
     });
@@ -74,7 +74,7 @@ function CartScreen(props) {
                         stopLeftSwipe={75}
                         rightOpenValue={-75}
                     />
-                     <BottomContainerView 
+                     <BottomView 
                         price={totalPrice.toFixed(2)} 
                         title='Checkout' 
                         onPress={() => {

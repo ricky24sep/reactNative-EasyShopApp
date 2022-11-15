@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
-function SwipeListViewItem({ name, color, size, onPress }) {
+function SwipeListItem({ name, color, size, onPress }) {
 
     return (
         <View style={styles.hiddenContainer}>
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SwipeListViewItem;
+export default SwipeListItem;

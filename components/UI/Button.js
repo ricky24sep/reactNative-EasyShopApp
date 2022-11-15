@@ -23,11 +23,13 @@ export default Button;
 const styles = StyleSheet.create({
     button:{
         borderRadius: 4,
-        padding: 14,
+        padding: 12,
         backgroundColor: GlobalStyles.colors.darkBlue,
     },
     flat: {
         backgroundColor: GlobalStyles.colors.clear,
+        borderColor: GlobalStyles.colors.darkBlue,
+        borderWidth: 0.5,
     },
     buttonText: {
         fontSize: 14,
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
     },
     pressed: {
         opacity: 0.75,
-        //backgroundColor: GlobalStyles.colors.darkBlue,
+        backgroundColor: GlobalStyles.colors.lightBlue,
         borderRadius: 4,
     },
 });

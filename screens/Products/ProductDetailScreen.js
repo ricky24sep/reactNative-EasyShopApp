@@ -7,7 +7,6 @@ import BottomView from '../../components/UI/BottomView';
 
 function ProductDetailScreen(props) {
 
-    console.log ('ProductDetailScreen --> props:', props);
     console.log ('ProductDetailScreen --> props.route.params.item:', props.route.params.item);
 
     const [item, setItem] = useState(props.route.params.item);

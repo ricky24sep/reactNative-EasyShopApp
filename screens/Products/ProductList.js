@@ -11,7 +11,6 @@ function ProductList(props) {
     const { item } = props;
     const dispatch = useDispatch();
 
-    console.log ('ProductList --> props:', props );
     console.log ('ProductList --> item:', item );
 
     function addToCartHandler() {

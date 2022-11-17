@@ -1,13 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ProductContainerScreen from '../screens/Products/ProductContainerScreen';
-import ProductDetailScreen from '../screens/Products/ProductDetailScreen';
+import LoginScreen from '../screens/User/LoginScreen';
+import SignupScreen from '../screens/User/SignupScreen';
 
 import { GlobalStyles } from '../constants/Styles';
 
 const Stack = createStackNavigator();
 
-function HomeNavigator() {
+function AuthNavigator() {
     return (
         <Stack.Navigator 
             screenOptions={{
@@ -15,10 +15,10 @@ function HomeNavigator() {
                 headerTintColor: GlobalStyles.colors.white,
             }}
         >
-            <Stack.Screen name='Home' component={ProductContainerScreen} />
-            <Stack.Screen name='Product Detail' component={ProductDetailScreen} />
+            <Stack.Screen name='Login' component={LoginScreen} />
+            <Stack.Screen name='Signup' component={SignupScreen} />
         </Stack.Navigator>
     );
 }
 
-export default HomeNavigator;
+export default AuthNavigator;

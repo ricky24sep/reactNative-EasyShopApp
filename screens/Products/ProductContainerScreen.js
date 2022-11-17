@@ -11,8 +11,6 @@ import { fetchProducts, fetchCategories, fetchOffers } from '../../utils/http';
 
 function ProductContainerScreen(props) {
 
-    console.log ('ProductContainer --> props:', props);
-
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [offers, setOffers] = useState([]);

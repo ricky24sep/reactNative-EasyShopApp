@@ -1,13 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
-
-import ProductContainerScreen from '../screens/Products/ProductContainerScreen';
-import ProductDetailScreen from '../screens/Products/ProductDetailScreen';
-
+import UserProfileScreen from '../screens/User/UserProfileScreen';
 import { GlobalStyles } from '../constants/Styles';
 
 const Stack = createStackNavigator();
 
-function HomeNavigator() {
+function UserProfileNavigator() {
     return (
         <Stack.Navigator 
             screenOptions={{
@@ -15,10 +12,9 @@ function HomeNavigator() {
                 headerTintColor: GlobalStyles.colors.white,
             }}
         >
-            <Stack.Screen name='Home' component={ProductContainerScreen} />
-            <Stack.Screen name='Product Detail' component={ProductDetailScreen} />
+            <Stack.Screen name='UserProfile' component={UserProfileScreen} />
         </Stack.Navigator>
     );
 }
 
-export default HomeNavigator;
+export default UserProfileNavigator;

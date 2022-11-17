@@ -4,9 +4,6 @@ var { width } = Dimensions.get('window');
 
 function ProductCard({item, addToCart}) {
 
-    console.log ('ProductCard --> item:', item );
-    console.log ('ProductCard --> addToCart:', addToCart );
-
     return (
         <View style={styles.container}>
             <Image 

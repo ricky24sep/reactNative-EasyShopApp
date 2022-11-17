@@ -15,9 +15,9 @@ function InputFormContainer({ isLogin, onAuthenticate }) {
     
     function switchAuthModeHandler() {
         if (isLogin) {
-            navigation.goBack();
+            navigation.navigate('Signup');
           } else {
-            navigation.navigate('Login');
+            navigation.goBack();
           }
     }
     

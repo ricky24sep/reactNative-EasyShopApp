@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { useState, useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native'
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 
 import ProductList from './ProductList';
 import Banner from '../../components/Product/Banner';
@@ -11,6 +12,9 @@ import { fetchProducts, fetchCategories, fetchOffers } from '../../utils/http';
 
 function ProductContainerScreen(props) {
 
+    const authToken = useSelector((state) => state.auth.authToken);
+    console.log ('ProductContainerScreen --> authToken:', authToken);
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [offers, setOffers] = useState([]);
@@ -20,31 +24,42 @@ function ProductContainerScreen(props) {
     const [loading, setLoading] = useState(true);
 
     useFocusEffect((
-        useCallback(() => {
-            setActive(-1);
-    
-            async function getProducts() {
-                const data = await fetchProducts();
-                setProducts(data);
-                setProductsCtg(data);
-                setInitialState(data);
-    
-                async function getCategories() {
-                    const data = await fetchCategories();
-                    setCategories(data);
-                    setLoading(false);
-                }
-                getCategories();
+        useCallback (
+            () => {
+                setActive(-1);
 
                 async function getOffers() {
-                    const data = await fetchOffers();
-                    setOffers(data);
+                    return await fetchOffers(authToken);
                 }
-                getOffers();
+
+                async function getCategories() {
+                    return await fetchCategories(authToken);
+                }
                 
-            }
-            getProducts(); 
-            
+                async function getProducts() {
+                    return await fetchProducts(authToken);
+                }
+
+                Promise.all([getProducts(), getCategories(), getOffers()])
+                .then(function (results) {
+                    const products = results[0];
+                    const categories = results[1];
+                    const offers = results[2];
+
+                    setProducts(products);
+                    setProductsCtg(products);
+                    setInitialState(products);
+                    setCategories(categories);
+                    setOffers(offers);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    Alert.alert(
+                        'Fetch error',
+                        'Unable to fetch the data. Please check again or try again later!'
+                    );
+                });
             }, [],
         )
     ));
@@ -70,22 +85,25 @@ function ProductContainerScreen(props) {
         <ScrollView style={styles.container}>
             <View>
                 <Banner offers={offers} />
-                <View style={styles.categoriesContainer}>
-                    <CategoriesSlider
-                        categories={categories}
-                        categoryFilter={changeCtg}
-                        active={active}
-                        setActive={setActive}
-                    />
-                </View> 
+                {productsCtg.length > 0 &&
+                    <View style={styles.categoriesContainer}>
+                        <CategoriesSlider
+                            categories={categories}
+                            categoryFilter={changeCtg}
+                            active={active}
+                            setActive={setActive}
+                        />
+                    </View>
+                }
                 {productsCtg.length > 0 ? (
                     <View style={styles.listContainer}>
                         {productsCtg.map((item) => {
                             return (
                                 <ProductList 
-                                    navigation={props.navigation} 
+                                    navigation={props} 
                                     key={item._id.oid} 
-                                    item={item} 
+                                    item={item}
+                                    authToken={authToken} 
                                 />
                             )
                         })}
@@ -108,7 +126,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     listContainer: {
-        //height: height,
         flex: 1,
         flexDirection: "row",
         alignItems: "flex-start",
@@ -116,7 +133,6 @@ const styles = StyleSheet.create({
         backgroundColor: "gainsboro",
     },
     center: {
-        //height: '40%',
         marginTop: 100,
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,5 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useState, useCallback, useLayoutEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native'
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,41 +9,65 @@ import CartItem from "../../components/Cart/CartItem";
 import SwipeListItem from "../../components/Cart/SwipeListItem";
 import BottomView from '../../components/UI/BottomView';
 import { GlobalStyles } from '../../constants/Styles';
+import LoadingOverlay from '../../components/UI/LoadingOverlay';
 
 import { removeFromCart, clearCart } from '../../redux/reducers/cartReducer';
+import { fetchCartItems } from '../../utils/http';
 
 function CartScreen(props) {
 
-    console.log ('CartScreen --> props:', props );
-    console.log ('CartScreen --> props.navigation :', props.navigation );
+    const authToken = useSelector((state) => state.auth.authToken);
+    console.log ('CartScreen --> authToken:', authToken);
 
-    const cartItems = useSelector((state) => state.cartItems.items);
-    console.log ('CartScreen --> All cart items:', cartItems );
+    const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const dispatch = useDispatch();
+    useFocusEffect((
+        useCallback (
+            () => {
+                async function getCartItems() {
+                    try {
+                        const data = await fetchCartItems(authToken);
+                        setCartItems(data); 
+                        setLoading(false);
+                    } catch (error) {
+                        Alert.alert(
+                            'Fetch error',
+                            'Unable to fetch the data. Please check again or try again later!'
+                          );
+                        setLoading(false);
+                    }
+                }
+                getCartItems();  
+            }, [],
+        )
+    ));
 
     var totalPrice = 0;
     cartItems.forEach(item => {
-        return (totalPrice += item.product.price)
+        return (totalPrice += item.price)
     });
 
-    props.navigation.setOptions({
-        headerRight: () => (
-            <TouchableOpacity style={styles.iconButton} onPress={() => {
-                dispatch(clearCart(cartItems));
-            }} >
-                <Ionicons name='trash' color={GlobalStyles.colors.white} size={24} />
-            </TouchableOpacity>    
-        ),
-    });
+    const dispatch = useDispatch();
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity style={styles.iconButton} onPress={() => {
+                    dispatch(clearCart(cartItems));
+                }} >
+                    <Ionicons name='trash' color={GlobalStyles.colors.white} size={24} />
+                </TouchableOpacity>    
+            ),
+        });
+    }, [props.navigation]);
 
     function renderItem({ item }) {
         return (
             <CartItem 
                 quantity={item.quantity}
-                image={item.product.image} 
-                name={item.product.name} 
-                price={item.product.price} 
+                image={item.image} 
+                name={item.name} 
+                price={item.price} 
             />
         );
     }
@@ -57,6 +83,10 @@ function CartScreen(props) {
                 }}
             />
         );
+    }
+
+    if (loading) {
+        return <LoadingOverlay />
     }
 
     return (

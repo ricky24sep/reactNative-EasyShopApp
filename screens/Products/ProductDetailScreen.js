@@ -1,20 +1,29 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Image, View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+import { Image, View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { addToCart } from '../../redux/reducers/cartReducer';
+import { addProductToCart } from '../../utils/http';
 import BottomView from '../../components/UI/BottomView';
 
 function ProductDetailScreen(props) {
 
-    console.log ('ProductDetailScreen --> props.route.params.item:', props.route.params.item);
+    console.log ('ProductDetailScreen --> props.route.params:', props.route.params);
 
     const [item, setItem] = useState(props.route.params.item);
-    const [availability, setAvailability] = useState('');
+    const [authToken, setAuthToken] = useState(props.route.params.authToken);
 
     const dispatch = useDispatch();
-    function addToCartHandler() {
-        dispatch(addToCart({ quantity: 1, product: item}));
+    async function addToCartHandler() {
+        const jsonString = {
+            quantity: 1, 
+            _id: item._id.oid,
+            name: item.name,
+            image: item.image,
+            price: item.price
+        }
+        dispatch(addToCart(jsonString));
+        await addProductToCart(authToken, jsonString);
     }
 
     return (

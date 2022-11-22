@@ -8,16 +8,16 @@ const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action) => {
             state.items.push(action.payload);
-            console.log('cart items:', state.items);
+            //console.log('cartReducer.js ---> cart items:', state.items);
         },
         removeFromCart: (state, action) => {
             let indexOfItem = state.items.indexOf(action.payload)
             state.items.splice(indexOfItem, 1);
-            console.log('cart items:', state.items);
+            //console.log('cartReducer.js ---> cart items:', state.items);
         },
         clearCart: (state, action) => {
             state.items.splice(0, action.payload.length);
-            console.log('cart items:', state.items);
+            //console.log('cartReducer.js ---> cart items:', state.items);
         },
     }
 });

@@ -6,14 +6,19 @@ import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import ProductList from './ProductList';
 import Banner from '../../components/Product/Banner';
 import CategoriesSlider from '../../components/Product/CategoriesSlider';
+import OfflineView from '../../components/UI/OfflineView';
 import LoadingOverlay from '../../components/UI/LoadingOverlay';
 
 import { fetchProducts, fetchCategories, fetchOffers } from '../../utils/http';
 
+const PRODUCTS = require('../../data/products.json');
+const CATEGORIES = require('../../data/categories.json');
+const OFFERS = require('../../data/offers.json');
+
 function ProductContainerScreen(props) {
 
     const authToken = useSelector((state) => state.auth.authToken);
-    console.log ('ProductContainerScreen --> authToken:', authToken);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -55,10 +60,11 @@ function ProductContainerScreen(props) {
                 })
                 .catch((err) => {
                     setLoading(false);
-                    Alert.alert(
-                        'Fetch error',
-                        'Unable to fetch the data. Please check again or try again later!'
-                    );
+                    setProducts(PRODUCTS);
+                    setProductsCtg(PRODUCTS);
+                    setInitialState(PRODUCTS);
+                    setCategories(CATEGORIES);
+                    setOffers(OFFERS);
                 });
             }, [],
         )
@@ -84,17 +90,16 @@ function ProductContainerScreen(props) {
     return (
         <ScrollView style={styles.container}>
             <View>
+                {!isAuthenticated && <OfflineView />}
                 <Banner offers={offers} />
-                {productsCtg.length > 0 &&
-                    <View style={styles.categoriesContainer}>
-                        <CategoriesSlider
-                            categories={categories}
-                            categoryFilter={changeCtg}
-                            active={active}
-                            setActive={setActive}
-                        />
-                    </View>
-                }
+                <View style={styles.categoriesContainer}>
+                    <CategoriesSlider
+                        categories={categories}
+                        categoryFilter={changeCtg}
+                        active={active}
+                        setActive={setActive}
+                    />
+                </View>
                 {productsCtg.length > 0 ? (
                     <View style={styles.listContainer}>
                         {productsCtg.map((item) => {
@@ -104,6 +109,7 @@ function ProductContainerScreen(props) {
                                     key={item._id.oid} 
                                     item={item}
                                     authToken={authToken} 
+                                    isAuthenticated={isAuthenticated}
                                 />
                             )
                         })}

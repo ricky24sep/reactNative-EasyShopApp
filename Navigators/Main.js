@@ -17,14 +17,15 @@ const Tab = createBottomTabNavigator();
 function Main() {
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-    console.log ('LoginScreen --> isAuthenticated:', isAuthenticated);
+    console.log ('Main.js --> isAuthenticated:', isAuthenticated);
 
     const dispatch = useDispatch();
     useEffect(() => {
         async function fetchToken() {
-          const storedToken = await AsyncStorage.getItem('idToken');
-          if (storedToken) {
-            dispatch(authenticate(storedToken));
+          const authToken = await AsyncStorage.getItem('idToken');
+          console.log('Main.js --> authToken:', authToken);
+          if (authToken) {
+            dispatch(authenticate(authToken));
           }
         }
         fetchToken();

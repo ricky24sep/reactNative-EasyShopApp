@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Image, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Image, View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 
 import { addToCart } from '../../redux/reducers/cartReducer';
 import { addProductToCart } from '../../utils/http';
@@ -12,18 +12,28 @@ function ProductDetailScreen(props) {
 
     const [item, setItem] = useState(props.route.params.item);
     const [authToken, setAuthToken] = useState(props.route.params.authToken);
+    const [isAuthenticated, setIsAuthenticated] = useState(props.route.params.isAuthenticated);
 
     const dispatch = useDispatch();
     async function addToCartHandler() {
         const jsonString = {
             quantity: 1, 
-            _id: item._id.oid,
+            oid: item._id.oid,
             name: item.name,
             image: item.image,
             price: item.price
         }
         dispatch(addToCart(jsonString));
-        await addProductToCart(authToken, jsonString);
+        if (isAuthenticated) {
+            try {
+                await addProductToCart(authToken, jsonString);
+            } catch (error) {
+                Alert.alert(
+                    'Add item to cart',
+                    'Unable to add cart item. Please check again or try again later!'
+                );
+            }
+        }
     }
 
     return (

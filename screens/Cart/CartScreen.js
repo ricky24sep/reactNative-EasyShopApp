@@ -12,33 +12,38 @@ import { GlobalStyles } from '../../constants/Styles';
 import LoadingOverlay from '../../components/UI/LoadingOverlay';
 
 import { removeFromCart, clearCart } from '../../redux/reducers/cartReducer';
-import { fetchCartItems } from '../../utils/http';
+import { fetchCartItems, deleteCartItem, clearCartItems } from '../../utils/http';
 
 function CartScreen(props) {
 
     const authToken = useSelector((state) => state.auth.authToken);
-    console.log ('CartScreen --> authToken:', authToken);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const ITEMS = useSelector((state) => state.cartItems.items);
+    console.log('CartScreen.js ---> cart items:', ITEMS);
 
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(ITEMS);
     const [loading, setLoading] = useState(true);
 
     useFocusEffect((
         useCallback (
             () => {
                 async function getCartItems() {
-                    try {
-                        const data = await fetchCartItems(authToken);
-                        setCartItems(data); 
-                        setLoading(false);
-                    } catch (error) {
-                        Alert.alert(
-                            'Fetch error',
-                            'Unable to fetch the data. Please check again or try again later!'
-                          );
-                        setLoading(false);
+                    if (isAuthenticated) {
+                        try {
+                            const data = await fetchCartItems(authToken);
+                            setCartItems(data); 
+                        } catch (error) {
+                            Alert.alert(
+                                'Fetch error',
+                                'Unable to fetch the data. Please check again or try again later!'
+                            );
+                        }
+                    } else {
+                        setCartItems(ITEMS); 
                     }
+                    setLoading(false);
                 }
-                getCartItems();  
+                getCartItems()
             }, [],
         )
     ));
@@ -53,13 +58,49 @@ function CartScreen(props) {
         props.navigation.setOptions({
             headerRight: () => (
                 <TouchableOpacity style={styles.iconButton} onPress={() => {
-                    dispatch(clearCart(cartItems));
+                    clearCartItemsHandler()
                 }} >
                     <Ionicons name='trash' color={GlobalStyles.colors.white} size={24} />
                 </TouchableOpacity>    
             ),
         });
     }, [props.navigation]);
+
+    async function clearCartItemsHandler() {
+        setLoading(true);
+        dispatch(clearCart(cartItems));
+        if (isAuthenticated) {
+            try {
+                await clearCartItems(authToken);
+                const data = await fetchCartItems(authToken);
+                setCartItems(data); 
+            } catch (error) {
+                Alert.alert(
+                    'Clear cart item error',
+                    'Unable to clear cart item. Please check again or try again later!'
+                );
+            }
+        }
+        setLoading(false);
+    }
+
+    async function deleteCartItemHandler(item) {
+        setLoading(true);
+        dispatch(removeFromCart(item));
+        if (isAuthenticated) {
+            try {
+                await deleteCartItem(item.id, authToken);
+                const data = await fetchCartItems(authToken);
+                setCartItems(data); 
+            } catch (error) {
+                Alert.alert(
+                    'Delete cart item error',
+                    'Unable to delete cart item. Please check again or try again later!'
+                  );
+            }
+        } 
+        setLoading(false);
+    }
 
     function renderItem({ item }) {
         return (
@@ -79,7 +120,7 @@ function CartScreen(props) {
                 color='white' 
                 size={30} 
                 onPress={() => {
-                    dispatch(removeFromCart(item));
+                    deleteCartItemHandler(item);
                 }}
             />
         );
@@ -109,7 +150,9 @@ function CartScreen(props) {
                         price={totalPrice.toFixed(2)} 
                         title='Checkout' 
                         onPress={() => {
-                            props.navigation.navigate('Checkout', { cartItems: cartItems });
+                            props.navigation.navigate('Checkout', { 
+                                cartItems: cartItems 
+                            });
                         }}
                     />
                 </View>

@@ -58,10 +58,12 @@ export async function deleteCartItem(id, authToken) {
     await axios.delete(
         `${BASE_URL}Cart/${id}.json?auth=${authToken}`
     )
+    fetchCartItems(authToken)
 }
 
 export async function clearCartItems(authToken) {
     await axios.delete(
         `${BASE_URL}Cart.json?auth=${authToken}`
     )
+    fetchCartItems(authToken)
 }

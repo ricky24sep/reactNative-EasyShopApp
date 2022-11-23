@@ -19,7 +19,6 @@ function CartScreen(props) {
     const authToken = useSelector((state) => state.auth.authToken);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const ITEMS = useSelector((state) => state.cartItems.items);
-    console.log('CartScreen.js ---> cart items:', ITEMS);
 
     const [cartItems, setCartItems] = useState(ITEMS);
     const [loading, setLoading] = useState(true);
@@ -64,15 +63,14 @@ function CartScreen(props) {
                 </TouchableOpacity>    
             ),
         });
-    }, [props.navigation]);
+    }, [props.navigation, clearCartItemsHandler]);
 
     async function clearCartItemsHandler() {
-        setLoading(true);
         dispatch(clearCart(cartItems));
         if (isAuthenticated) {
+            setLoading(true);
             try {
-                await clearCartItems(authToken);
-                const data = await fetchCartItems(authToken);
+                const data = await clearCartItems(authToken);
                 setCartItems(data); 
             } catch (error) {
                 Alert.alert(
@@ -80,17 +78,18 @@ function CartScreen(props) {
                     'Unable to clear cart item. Please check again or try again later!'
                 );
             }
+            setLoading(false);
+        } else {
+            setCartItems([]);
         }
-        setLoading(false);
     }
 
     async function deleteCartItemHandler(item) {
-        setLoading(true);
         dispatch(removeFromCart(item));
         if (isAuthenticated) {
+            setLoading(true);
             try {
-                await deleteCartItem(item.id, authToken);
-                const data = await fetchCartItems(authToken);
+                const data = await deleteCartItem(item.id, authToken);
                 setCartItems(data); 
             } catch (error) {
                 Alert.alert(
@@ -98,8 +97,13 @@ function CartScreen(props) {
                     'Unable to delete cart item. Please check again or try again later!'
                   );
             }
-        } 
-        setLoading(false);
+            setLoading(false);
+        } else {
+            const filteredCartItems = cartItems.filter((cartItem) => 
+                cartItem.id !== item.id
+            );
+            setCartItems(filteredCartItems);
+        }
     }
 
     function renderItem({ item }) {
